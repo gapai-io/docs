@@ -206,16 +206,7 @@
           "changelog"
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Changelog",
-          "href": "/changelog",
-          "icon": "list"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",
