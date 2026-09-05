@@ -1,0 +1,33 @@
+---
+title: "Changelog"
+description: "New features, improvements, and fixes"
+rss: true
+---
+
+Product updates for the starter kit. Subscribe with the RSS feed, or filter entries by tag.
+
+<Update label="March 2026" description="v1.2.0" tags={["API", "Docs"]}>
+  ## Plant store API
+
+  Added a webhook that notifies you when a plant is created.
+
+  ## Documentation
+
+  Added this changelog so you can publish dated release notes with tags and an RSS feed.
+</Update>
+
+<Update label="February 2026" description="v1.1.0" tags={["API"]}>
+  ## Create plants
+
+  Added `POST /plants` so you can add plants to the store.
+
+  The request body uses the `NewPlant` schema from the OpenAPI spec.
+</Update>
+
+<Update label="January 2026" description="v1.0.0" tags={["API", "Docs"]}>
+  ## First release
+
+  Shipped the plant store API with `GET /plants` and `DELETE /plants/{id}`.
+
+  Published the starter guides, customization pages, and OpenAPI reference.
+</Update>
