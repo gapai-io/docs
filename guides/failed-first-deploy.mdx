@@ -1,0 +1,46 @@
+---
+title: "Failed first deploy"
+description: "What to do when the first deploy of a new environment fails. There is no in-product recovery."
+icon: "triangle-exclamation"
+---
+
+When you create an environment for the first time, Gapstack starts a deploy and creates that environment's CloudFormation stack in **your** AWS account.
+
+If that first deploy fails, Gapstack cannot recover the environment. There is no repair or retry path in the product. You must clean up in AWS, delete the environment, fix the cause, and create the environment again.
+
+<Warning>
+  A failed first deploy cannot be recovered in Gapstack. Delete the CloudFormation stack in AWS, delete the environment, then recreate it after you fix the failure.
+</Warning>
+
+<Note>
+  This is an AWS limitation. When CloudFormation creates a stack for the first time and that create fails, there is no previous stack to roll back to. AWS does not offer a recover or retry path on that failed create. You must delete the stack and create it again.
+</Note>
+
+## Before you recreate
+
+Open the failed [workflow](/guides/workflows) and read **State Records**. Find the event with a status reason. That is the CloudFormation error.
+
+Fix that problem before you create the environment again. Otherwise the next first deploy fails the same way.
+
+## Recover from a failed first deploy
+
+<Steps>
+  <Step title="Delete the stack in AWS">
+    Sign in to the AWS account and region for that environment. Open CloudFormation and delete the environment stack.
+
+    See [Delete a stack from the CloudFormation console](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html). Wait until the stack is gone. If AWS reports resources it could not delete, remove those resources, then delete the stack again.
+  </Step>
+  <Step title="Delete the environment in Gapstack">
+    Open the project, delete the failed environment, and confirm it no longer appears in the list.
+  </Step>
+  <Step title="Fix the cause">
+    Use the workflow error to correct the configuration, permissions, resource settings, or artifact path that caused the failure.
+  </Step>
+  <Step title="Create the environment again">
+    Create a new environment and let the first deploy run. Watch **Workflows** until the stack completes.
+  </Step>
+</Steps>
+
+<Note>
+  Later deploys on an environment that already completed once can fail and roll back. This page is only for the first deploy of a new environment.
+</Note>
