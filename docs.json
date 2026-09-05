@@ -8,6 +8,15 @@
     "dark": "#050817"
   },
   "favicon": "/favicon.svg",
+  "seo": {
+    "metatags": {
+      "og:image": "/images/og.png",
+      "og:image:width": "1200",
+      "og:image:height": "630",
+      "twitter:card": "summary_large_image",
+      "twitter:image": "/images/og.png"
+    }
+  },
   "navigation": {
     "tabs": [
       {
