@@ -8,9 +8,22 @@ Gapstack is a platform for provisioning AWS resources with a click. You define w
 
 Use it to keep environments isolated, deploy across AWS accounts and regions, ship your own code from GitHub, and see cost and stack information in one place.
 
-<Note>
-  Gapstack deploys AWS resources into **your** AWS account. You own all of the infrastructure. Gapstack does not host your stacks in a shared account.
-</Note>
+## How provisioning works
+
+Gapstack operates a control plane. That is the only infrastructure we host. We use it to connect your AWS account, manage projects and environments, and run deploys.
+
+We do not host the resources that belong to your projects or environments.
+
+When you connect an AWS account, CloudFormation creates an IAM role in **your** account. Gapstack assumes that role and creates CloudFormation stacks on your behalf. Those stacks provision APIs, functions, data stores, and the rest of the environment in your AWS account and region.
+
+You own the stacks. You can revoke access from Gapstack or by deleting the connection stack in AWS.
+
+<Frame caption="Gapstack orchestrates deploys. Project resources land in your AWS account.">
+  <img
+    src="/images/architecture-overview.svg"
+    alt="Diagram showing your code, config, and linked AWS account flowing into the Gapstack orchestration engine, which assumes your IAM role and provisions resources in your AWS account."
+  />
+</Frame>
 
 ## What you can do
 
