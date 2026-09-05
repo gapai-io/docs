@@ -27,6 +27,7 @@
               "guides/supported-resources",
               "guides/workflows",
               "guides/webhooks",
+              "guides/environment-variables",
               "guides/view-aws-costs",
               "guides/deploy-artifacts"
             ]

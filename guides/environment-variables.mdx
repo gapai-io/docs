@@ -1,0 +1,55 @@
+---
+title: "Environment variables"
+description: "Define variables at the project or environment level. Environment values override project values and are injected into every Lambda."
+icon: "key"
+---
+
+You can define environment variables at the **project** level or the **environment** level. Gapstack injects the merged set into every **Lambda** it provisions in that environment.
+
+Use project variables for values that should apply in every environment, such as a shared API base URL. Use environment variables for values that differ per environment, such as a production secret.
+
+<Frame caption="Environment Variables on an environment. These values are injected into every Lambda in that environment.">
+  <img
+    src="/images/environment-variables.png"
+    alt="Environment Variables tab with Name and Value fields, a Sensitive checkbox, Import .env, Save, and a list of existing variables."
+    width={4052}
+    height={2962}
+    style={{ width: "720px", maxWidth: "100%", height: "auto" }}
+  />
+</Frame>
+
+## Priority
+
+Gapstack starts with the project variables, then applies the environment variables.
+
+- A project variable is available to Lambdas in every environment under that project.
+- If the same name is set on the environment, the environment value wins.
+- Environment variables have higher priority than project variables.
+
+For example, if the project defines `LOG_LEVEL=info` and the `prod` environment defines `LOG_LEVEL=error`, Lambdas in `prod` receive `error`.
+
+## Where they are injected
+
+After you deploy the environment, Gapstack injects the merged variables into every Lambda resource in that environment. You do not add them on each function yourself.
+
+<Note>
+  A project does not have a CloudFormation stack. Variables defined on the project are still injected when each environment stack is deployed.
+</Note>
+
+## Add a variable
+
+<Steps>
+  <Step title="Open Environment Variables">
+    Open a **project** or an **environment**, then click **Environment Variables**.
+  </Step>
+  <Step title="Add the name and value">
+    Enter **Name** and **Value**. Select **Sensitive** if the value is a secret. Click **+ Add More** for additional rows, or **Import .env** to paste a `.env` file.
+  </Step>
+  <Step title="Save and deploy">
+    Click **Save**. Deploy the environment so Lambdas receive the updated set.
+  </Step>
+</Steps>
+
+<Info>
+  Set the same name on an environment only when you need to override the project value. Otherwise define it once on the project.
+</Info>
