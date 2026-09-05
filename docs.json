@@ -24,6 +24,7 @@
             "group": "Guides",
             "pages": [
               "guides/connect-aws-account",
+              "guides/supported-resources",
               "guides/view-aws-costs",
               "guides/deploy-artifacts"
             ]
