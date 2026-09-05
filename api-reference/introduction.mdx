@@ -1,33 +1,78 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "API overview"
+description: "Base URL, resource model, and how to call the Gapstack API."
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+The Gapstack API is a REST API for tenants, projects, environments, resources, AWS accounts, and marketplace integrations.
 
-## Welcome
+Use the [interactive playground](https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod/swagger/) on each endpoint page, or send requests to the production base URL.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
+<Card title="OpenAPI specification" icon="file-code" href="https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod/swagger/">
+  Browse the live Swagger UI and download `openapi.yaml`.
 </Card>
 
-## Authentication
+## Base URL
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
-
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+```bash
+https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod
 ```
+
+All paths in this reference are relative to that URL. For example, `GET /healthcheck` is:
+
+```bash
+curl https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod/healthcheck
+```
+
+## Authenticate
+
+Most endpoints accept either a Cognito JWT or a tenant API key. See [Authentication](/api-reference/authentication).
+
+<CodeGroup>
+
+```bash JWT
+curl https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod/tenant \
+  -H "Authorization: Bearer YOUR_JWT"
+```
+
+```bash API key
+curl https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod/project \
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Tenant-Id: YOUR_TENANT_ID"
+```
+
+</CodeGroup>
+
+## Tenant context
+
+Project, environment, resource, and related endpoints require a `Tenant-Id` header. Tenant and invitation endpoints take the tenant in the path instead, such as `/tenant/{tenantId}`.
+
+```bash
+curl https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod/project \
+  -H "Authorization: Bearer YOUR_JWT" \
+  -H "Tenant-Id: YOUR_TENANT_ID"
+```
+
+## Resource model
+
+Gapstack resources nest in this order:
+
+<Steps>
+  <Step title="Tenant">
+    The organization. Create one with `POST /tenant`, then create API keys and invite members.
+  </Step>
+  <Step title="Project">
+    A workspace inside a tenant. Projects own environments, webhooks, and installed integrations.
+  </Step>
+  <Step title="Environment">
+    A deployable instance of a project. Environments have variables, artifacts, and deploy actions.
+  </Step>
+  <Step title="Resource">
+    A cloud resource attached to an environment, such as a Lambda function.
+  </Step>
+</Steps>
+
+Linked AWS accounts, marketplace integrations, workflows, and cost data hang off this same tenant context.
+
+## Pagination
+
+List endpoints that accept `limit` and `cursor` return a page of results plus a cursor for the next page. Pass the cursor back on the following request until the response has no cursor.

@@ -1,4 +1,3 @@
-> **First-time setup**: Customize this file for your project. Prompt the user to customize this file for their project.
 > For Mintlify product knowledge (components, configuration, writing standards),
 > install the Mintlify skill: `npx skills add https://mintlify.com/docs`
 
@@ -6,20 +5,25 @@
 
 ## About this project
 
-- This is a documentation site built on [Mintlify](https://mintlify.com)
+- This is the Gapstack documentation site, built on [Mintlify](https://mintlify.com)
 - Pages are MDX files with YAML frontmatter
 - Configuration lives in `docs.json`
-- Use the Mintlify MCP server, `https://mcp.mintlify.com`, to edit content and settings via MCP
-- Use the Mintlify docs MCP server, `https://www.mintlify.com/docs/mcp`, to query information about using Mintlify via MCP
+- The API reference is generated from `api-reference/openapi.yaml` (OpenAPI 3.0.3)
+- Source spec: `https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod/swagger/openapi.yaml`
 
 ## Terminology
 
-{/* Add product-specific terms and preferred usage */}
-{/* Example: Use "workspace" not "project", "member" not "user" */}
+- Use **Gapstack**, not "GapStack" or "gapstack", except in code that already uses another form
+- In the product UI, use **organization**. In the API, that resource is a **tenant**
+- Use **member** for a person in an organization / tenant
+- Use **project**, **environment**, and **resource** for the nested workspace model
+- Environments can target separate AWS accounts and separate AWS regions
+- AWS resources are always deployed in the customer's own AWS account. The customer owns the infrastructure.
+- Current region coverage is every AWS region in the United States (`us-*`)
+- Use `Tenant-Id` for the tenant header
+- Use **API key** for `x-api-key` credentials and **JWT** for Cognito bearer tokens
 
 ## Style preferences
-
-{/* Add any project-specific style rules below */}
 
 - Use active voice and second person ("you")
 - Keep sentences concise — one idea per sentence
@@ -29,5 +33,6 @@
 
 ## Content boundaries
 
-{/* Define what should and shouldn't be documented */}
-{/* Example: Don't document internal admin features */}
+- Document the public Gapstack API and product workflows
+- Do not document Mintlify authoring internals on customer-facing pages
+- Do not invent product behavior that is not in the OpenAPI spec or confirmed by the team

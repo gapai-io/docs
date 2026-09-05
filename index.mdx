@@ -1,140 +1,84 @@
 ---
 title: "Introduction"
-description: "Welcome to the new home for your documentation"
-icon: 'star'
+description: "Provision AWS resources with environment isolation, multi-account and multi-region deploys, GitHub, and cost visibility."
+icon: "layer-group"
 ---
 
-## Setting up
+Gapstack is a platform for provisioning AWS resources with a click. You define what to run, and Gapstack creates and manages the infrastructure for you.
 
-Get your documentation site up and running in minutes.
+Use it to keep environments isolated, deploy across AWS accounts and regions, ship your own code from GitHub, and see cost and stack information in one place.
+
+<Note>
+  Gapstack deploys AWS resources into **your** AWS account. You own all of the infrastructure. Gapstack does not host your stacks in a shared account.
+</Note>
+
+## What you can do
+
+<Columns cols={2}>
+  <Card title="Provision on AWS" icon="cloud">
+    Create AWS resources from Gapstack. They land in your account, so you own the stack.
+  </Card>
+  <Card title="Separate environments" icon="layer-group">
+    Keep environments isolated from each other so you can run development, staging, and production as distinct stacks.
+  </Card>
+  <Card title="Split accounts and regions" icon="globe">
+    Deploy each environment to its own AWS account, its own region, or both. Gapstack currently supports every AWS region in the United States (`us-*`).
+  </Card>
+  <Card title="Deploy from GitHub" icon="github">
+    Connect your GitHub account and deploy your own application code onto the infrastructure Gapstack provisions.
+  </Card>
+  <Card title="Monitor AWS cost" icon="chart-line">
+    Track AWS spend for the accounts and environments you manage in Gapstack.
+  </Card>
+  <Card title="See your stack" icon="diagram-project">
+    View infrastructure details for the resources Gapstack created, so you know what is running and where.
+  </Card>
+</Columns>
+
+## Get started
 
 <Card
-  title="Start here"
+  title="Quickstart"
   icon="rocket"
   href="/quickstart"
   horizontal
 >
-  Follow our three step quickstart guide.
+  Sign up, create an organization, connect AWS and GitHub, and create your first project.
 </Card>
 
-## Make it yours
+## Use the API
 
-Design a docs site that looks great and empowers your users.
+The API reference is generated from the Gapstack OpenAPI 3 specification.
+
+<Card
+  title="API overview"
+  icon="terminal"
+  href="/api-reference/introduction"
+  horizontal
+>
+  Base URL, tenant context, and how resources nest.
+</Card>
 
 <Columns cols={2}>
   <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
+    title="Authentication"
+    icon="key"
+    href="/api-reference/authentication"
   >
-    Edit your docs locally and preview them in real time.
+    Call the API with a Cognito JWT or a tenant API key.
   </Card>
   <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
+    title="Interactive playground"
+    icon="play"
+    href="https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod/swagger/"
   >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+    Try endpoints in Swagger UI against the production spec.
   </Card>
   <Card
     title="Changelog"
     icon="list"
     href="/changelog"
   >
-    Publish dated release notes with tags and an RSS feed.
+    Release notes for the API and product.
   </Card>
 </Columns>
-
-## Create beautiful pages
-
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Make your content agent ready
-
-Make your docs work for humans and AI agents alike.
-
-<Columns cols={2}>
-  <Card
-    title="Prompt component"
-    icon="robot"
-    href="/agent-ready/prompt"
-  >
-    Embed shareable AI prompts readers can copy or open in Cursor.
-  </Card>
-  <Card
-    title="Visibility"
-    icon="eye"
-    href="/agent-ready/visibility"
-  >
-    Show different content to humans and agents reading your docs.
-  </Card>
-  <Card
-    title="Contextual menu"
-    icon="bolt"
-    href="/agent-ready/contextual"
-  >
-    Give readers one-click access to Claude, ChatGPT, Cursor, and more.
-  </Card>
-  <Card
-    title="AI coding tools"
-    icon="wand-magic-sparkles"
-    href="/ai-tools/claude-code"
-  >
-    Set up Claude Code, Cursor, or Windsurf with Mintlify's skill.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>

@@ -1,0 +1,72 @@
+---
+title: "Authentication"
+description: "Authenticate with a JWT bearer token or a tenant API key."
+---
+
+The Gapstack API accepts two credentials. Send one of them on every authenticated request.
+
+| Method | Header | How you get it |
+| --- | --- | --- |
+| JWT | `Authorization: Bearer <token>` | Sign in with Cognito and use the access token |
+| API key | `x-api-key: <key>` | Create a key with `POST /tenant/{tenantId}/api-key` |
+
+Most product endpoints accept **either** header. A few account-level endpoints, such as listing your tenants, expect the JWT. Webhooks and `GET /healthcheck` are unauthenticated.
+
+<Note>
+  The OpenAPI security scheme is `BearerAuth` for JWTs and `ApiKeyAuth` for the `x-api-key` header. In the playground, set the token or key once and Mintlify sends it with each request.
+</Note>
+
+## JWT bearer token
+
+Use a Cognito access token in the `Authorization` header.
+
+```bash
+curl https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod/tenant \
+  -H "Authorization: Bearer eyJraWQiOiJ..."
+```
+
+The token identifies the current user. Gapstack then scopes data to the tenants that user belongs to.
+
+## API key
+
+API keys are per tenant. Create one after you have a tenant ID:
+
+```bash
+curl -X POST https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod/tenant/TENANT_ID/api-key \
+  -H "Authorization: Bearer YOUR_JWT" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"ci-pipeline"}'
+```
+
+Send the key on later requests. Tenant-scoped routes still need `Tenant-Id`.
+
+```bash
+curl https://9nr7sbhimh.execute-api.us-west-1.amazonaws.com/prod/environment \
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Tenant-Id: TENANT_ID"
+```
+
+Rotate or revoke a key with `PUT` or `DELETE` on `/tenant/{tenantId}/api-key/{apiKeyId}`.
+
+## Tenant-Id header
+
+Any route that does not include `{tenantId}` in the path, and is not a global settings or webhook route, expects this header:
+
+```bash
+Tenant-Id: TENANT_ID
+```
+
+If you omit it, the API cannot resolve the tenant and the request fails.
+
+<AccordionGroup>
+  <Accordion title="Endpoints that do not use Tenant-Id">
+    Tenant CRUD, tenant members, tenant API keys, invitations, settings, subscription, GitHub callbacks, and `GET /healthcheck` do not use the header. They either take `tenantId` in the path or run outside a tenant.
+  </Accordion>
+</AccordionGroup>
+
+## Webhook signatures
+
+Inbound webhooks verify a signature header instead of a user token:
+
+- GitHub App: `X-Hub-Signature-256` and `X-GitHub-Event` on `POST /github/webhook`
+- Subscription billing: `x-webhook-signature` on `POST /subscription/webhook`
