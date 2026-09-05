@@ -22,6 +22,9 @@
 - Current region coverage is every AWS region in the United States (`us-*`)
 - Use `Tenant-Id` for the tenant header
 - Use **API key** for `x-api-key` credentials and **JWT** for Cognito bearer tokens
+- Creating an environment deploys an artifacts S3 bucket and an OpenID Connect IAM role in the customer's AWS account and region
+- CI should authenticate with the OIDC role. Do not document long-lived AWS keys in GitHub
+- Environment bootstrap fields are `bootstraped_info` (API spelling)
 
 ## Style preferences
 

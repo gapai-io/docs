@@ -1,0 +1,150 @@
+---
+title: "Deploy an artifact to S3"
+description: "Set up a GitHub Actions workflow to upload Lambda artifacts to the environment S3 bucket."
+icon: "box-archive"
+---
+
+When you create an environment, Gapstack automatically creates two resources in **your** AWS account and region:
+
+1. An **S3 bucket** for artifacts
+2. An **OpenID Connect (OIDC) IAM role** so GitHub Actions can authenticate to AWS without long-lived access keys
+
+Copy the bucket name and role from the environment **Details** page. Store those values as GitHub Actions variables, then add the following steps to your workflow.
+
+<Note>
+  Do not store AWS access keys in GitHub. Use the OIDC role from the environment.
+</Note>
+
+<Steps>
+  <Step title="Copy values from the environment Details page">
+    Open the environment in Gapstack and click **Details**. Copy these fields:
+
+    - **OpenID Role** → `ROLE_TO_ASSUME`
+    - **Artifacts** → `BUCKET_SOURCE`
+    - **Region** → `AWS_REGION`
+    - The environment name → `ENVIRONMENT` and `STAGE`
+
+    Use the copy icon next to each field.
+
+    <Frame caption="Copy OpenID Role and Artifacts from the environment Details page.">
+      <img
+        src="/images/environment-bootstrap.png"
+        alt="Environment Details page with OpenID Role and Artifacts highlighted. Each field has a copy button."
+      />
+    </Frame>
+  </Step>
+
+  <Step title="Add GitHub Actions variables">
+    Add the values you copied as repository variables so the workflow can read them.
+
+    1. In GitHub, open the repository.
+    2. Click **Settings**.
+    3. Click **Secrets and variables**, then **Actions**.
+    4. Open the **Variables** tab.
+    5. Click **New repository variable** for each variable below.
+
+    | Name | Value |
+    | --- | --- |
+    | `AWS_REGION` | **Region** on the environment Details page (for example `us-west-1`) |
+    | `ENVIRONMENT` | The environment name (for example `prod`) |
+    | `STAGE` | The stage name (for example `prod`) |
+    | `BUCKET_SOURCE` | **Artifacts** on the environment Details page |
+    | `ROLE_TO_ASSUME` | **OpenID Role** on the environment Details page |
+  </Step>
+
+  <Step title="Set environment variables">
+    Add an `env` block at the top of the workflow. It reads the repository variables you created.
+
+    ```yaml
+    env:
+      STAGE: ${{ vars.STAGE }}
+      APP_NAME: ${{ github.event.repository.name }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+      BUCKET_SOURCE: ${{ vars.BUCKET_SOURCE }}
+      ROLE_TO_ASSUME: ${{ vars.ROLE_TO_ASSUME }}
+    ```
+  </Step>
+
+  <Step title="Configure AWS credentials (OIDC)">
+    Assume the environment OIDC role. GitHub issues a short-lived token. AWS trusts that token.
+
+    ```yaml
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ env.ROLE_TO_ASSUME }}
+        role-session-name: OIDCSession
+        aws-region: ${{ env.AWS_REGION }}
+    ```
+
+    <Info>
+      The job needs `permissions: id-token: write` so GitHub can mint the OIDC token.
+    </Info>
+  </Step>
+
+  <Step title="Upload Artifact to S3">
+    Copy the zip into the environment artifacts bucket. Change `./cmd/main.zip` if your build output lives somewhere else.
+
+    ```yaml
+    - name: Upload Artifact
+      run: |
+        aws s3 cp ./cmd/main.zip s3://${{ env.BUCKET_SOURCE }}/${{ env.APP_NAME }}/${{ env.ENVIRONMENT }}/main.zip
+    ```
+  </Step>
+</Steps>
+
+## Required GitHub Actions variables
+
+| Variable | Copy from |
+| --- | --- |
+| `ROLE_TO_ASSUME` | **OpenID Role** on the environment Details page |
+| `AWS_REGION` | **Region** on the environment Details page |
+| `BUCKET_SOURCE` | **Artifacts** on the environment Details page |
+| `ENVIRONMENT` | The environment name (for example `dev` or `prod`) |
+| `STAGE` | The stage name (for example `prod`) |
+
+## Example workflow
+
+```yaml
+name: Upload artifact
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  STAGE: ${{ vars.STAGE }}
+  APP_NAME: ${{ github.event.repository.name }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+  BUCKET_SOURCE: ${{ vars.BUCKET_SOURCE }}
+  ROLE_TO_ASSUME: ${{ vars.ROLE_TO_ASSUME }}
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.ROLE_TO_ASSUME }}
+          role-session-name: OIDCSession
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload Artifact
+        run: |
+          aws s3 cp ./cmd/main.zip s3://${{ env.BUCKET_SOURCE }}/${{ env.APP_NAME }}/${{ env.ENVIRONMENT }}/main.zip
+```
+
+`APP_NAME` comes from the repository name. The other values come from the GitHub Actions variables you added.
+
+## Next steps
+
+After the file is in S3, point a resource such as a Lambda at that artifact path and deploy the environment.
