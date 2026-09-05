@@ -1,0 +1,58 @@
+---
+title: "Connect an AWS account"
+description: "Link your AWS account with a CloudFormation stack and confirm it shows as Connected."
+icon: "cloud"
+---
+
+Gapstack provisions infrastructure in **your** AWS account. Connecting an account creates a CloudFormation stack that grants Gapstack permission to do that. You own the account and can revoke access at any time.
+
+<Note>
+  You must have **AdministratorAccess** (recommended) or be the root user (not recommended) to create the stack.
+</Note>
+
+<Steps>
+  <Step title="Open Connect a new account">
+    In Gapstack, click **Connect a new account**. You can also open [Organization settings](https://app.gapstack.dev/settings/aws-account) and add the account from there.
+  </Step>
+
+  <Step title="Name the account">
+    Enter an **Account name** you will recognize, such as `Prod` or `Dev`.
+
+    Select **I have Administrator Access** if you already have an AWS account. Select **Create new AWS Account** only if you need to create one.
+
+    <Frame caption="Name the AWS account, then open the authorization page.">
+      <img
+        src="/images/connect-aws-account.png"
+        alt="Connect AWS Account dialog with an account name field, Administrator Access selected, and an Open AWS Authorization Page button."
+        style={{ width: "520px", maxWidth: "100%", height: "auto" }}
+      />
+    </Frame>
+  </Step>
+
+  <Step title="Open the AWS authorization page">
+    Confirm you are signed in to the correct AWS account in the browser. Click **Open AWS Authorization Page**. AWS opens a CloudFormation stack in a new tab.
+
+    <Warning>
+      Do not change the CloudFormation template, parameters, or region. The connection stack must be created in `us-west-1`. You can still deploy projects to any supported region.
+    </Warning>
+  </Step>
+
+  <Step title="Accept the stack and create it">
+    Scroll to **Capabilities**. Leave the rest of the page unchanged.
+
+    1. Select **I acknowledge that AWS CloudFormation might create IAM resources with custom names.**
+    2. Click **Create stack**.
+  </Step>
+
+  <Step title="Confirm the account is Connected">
+    Stack creation takes a few minutes. When it finishes, open [Organization settings](https://app.gapstack.dev/settings/aws-account).
+
+    Refresh the page. The account status should show **Connected**.
+  </Step>
+</Steps>
+
+<Check>
+  The AWS account appears in Organization settings with a **Connected** status.
+</Check>
+
+Connecting an account is free. AWS charges begin when you create projects and provision resources in that account.

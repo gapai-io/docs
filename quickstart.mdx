@@ -42,26 +42,18 @@ Before you start, you need:
   </Step>
 
   <Step title="Connect your AWS account">
-    Next, link the AWS account where Gapstack should provision resources.
+    Next, link the AWS account where Gapstack should provision resources. See [Connect an AWS account](/guides/connect-aws-account) for the full walkthrough.
 
-    1. Enter an **AWS Account Name** you will recognize, such as `Dev`.
-    2. Select **I have Administrator access** if you already have an account, or **Create new AWS account** if you need one.
-    3. Confirm you are logged into the correct AWS account in the browser.
-    4. Click **Open AWS Authorization Page**. AWS opens a CloudFormation stack that grants Gapstack permission to provision resources in that account.
-    5. Select **I acknowledge that AWS CloudFormation might create IAM resources with custom names.**
-    6. Click **Create stack**.
+    1. Click **Connect a new account**.
+    2. Enter an **Account name** you will recognize, such as `Dev`.
+    3. Click **Open AWS Authorization Page**. Do not change anything on the CloudFormation stack.
+    4. Select **I acknowledge that AWS CloudFormation might create IAM resources with custom names.**
+    5. Click **Create stack**.
+    6. Wait a few minutes, then open [Organization settings](https://app.gapstack.dev/settings/aws-account) and refresh until the status is **Connected**.
 
     <Info>
       You must have **AdministratorAccess** (recommended) or be the root user (not recommended) to create the stack.
     </Info>
-
-    <Frame caption="Connect your AWS account with a CloudFormation stack.">
-      <img
-        src="/images/quickstart-connect-aws.png"
-        alt="Connect to your AWS Account screen with an account name, Administrator access option, and Open AWS Authorization Page button."
-        style={{ width: "360px", height: "auto" }}
-      />
-    </Frame>
   </Step>
 
   <Step title="Connect GitHub">
@@ -102,6 +94,14 @@ Before you start, you need:
 </Check>
 
 ## Next steps
+
+<Card
+  title="Connect an AWS account"
+  icon="cloud"
+  href="/guides/connect-aws-account"
+>
+  Create the CloudFormation stack and confirm the account shows as Connected.
+</Card>
 
 <Card
   title="Deploy an artifact to S3"

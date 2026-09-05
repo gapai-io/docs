@@ -23,6 +23,7 @@
           {
             "group": "Guides",
             "pages": [
+              "guides/connect-aws-account",
               "guides/deploy-artifacts"
             ]
           }
