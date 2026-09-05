@@ -12,13 +12,13 @@ Use it to keep environments isolated, deploy across AWS accounts and regions, sh
 
 Gapstack operates a control plane. That is the only infrastructure we host. We use it to connect your AWS account, manage projects and environments, and run deploys.
 
-We do not host the resources that belong to your projects or environments.
+We do not host the resources that belong to your environments.
 
-When you connect an AWS account, CloudFormation creates an IAM role in **your** account. Gapstack assumes that role and creates CloudFormation stacks on your behalf. Those stacks provision APIs, functions, data stores, and the rest of the environment in your AWS account and region.
+When you connect an AWS account, CloudFormation creates an IAM role in **your** account. Gapstack assumes that role and creates a CloudFormation stack for each environment. Those stacks provision APIs, functions, data stores, and the rest of the environment in your AWS account and region. A project only groups environments. It does not create a stack.
 
 You own the stacks. You can revoke access from Gapstack or by deleting the connection stack in AWS.
 
-<Frame caption="Gapstack orchestrates deploys. Project resources land in your AWS account.">
+<Frame caption="Gapstack orchestrates deploys. Environment resources land in your AWS account.">
   <img
     src="/images/architecture-overview.svg"
     alt="Diagram showing your code, config, and linked AWS account flowing into the Gapstack orchestration engine, which assumes your IAM role and provisions resources in your AWS account."
@@ -75,6 +75,15 @@ You own the stacks. You can revoke access from Gapstack or by deleting the conne
   horizontal
 >
   See the resource types you can provision today. If one is missing, contact us and we add it within two weeks.
+</Card>
+
+<Card
+  title="Workflows"
+  icon="list-check"
+  href="/guides/workflows"
+  horizontal
+>
+  Watch CloudFormation stack events for each deploy without leaving Gapstack.
 </Card>
 
 <Card

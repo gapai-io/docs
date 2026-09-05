@@ -17,6 +17,8 @@
 - In the product UI, use **organization**. In the API, that resource is a **tenant**
 - Use **member** for a person in an organization / tenant
 - Use **project**, **environment**, and **resource** for the nested workspace model
+- A **project** only groups environments. Creating a project does not create a CloudFormation stack
+- Only **environments** (and the AWS account connection) create CloudFormation stacks
 - Environments can target separate AWS accounts and separate AWS regions
 - AWS resources are always deployed in the customer's own AWS account. The customer owns the infrastructure.
 - Current region coverage is every AWS region in the United States (`us-*`)

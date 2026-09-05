@@ -77,7 +77,7 @@ Before you start, you need:
     1. Click **+ Create a New Project** at the top of the sidebar.
     2. Name the project and save it.
 
-    A project is the workspace where you add environments and provision AWS resources. From here you can isolate environments, target separate AWS accounts or `us-*` regions, and deploy the code you connected from GitHub.
+    A project only groups environments. It does not create a CloudFormation stack. You add environments under the project. Each environment can target its own AWS account or `us-*` region, and that is when Gapstack provisions resources.
 
     <Frame caption="Click + Create a New Project on the dashboard.">
       <img

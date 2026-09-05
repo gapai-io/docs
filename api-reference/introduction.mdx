@@ -61,10 +61,10 @@ Gapstack resources nest in this order:
     The organization. Create one with `POST /tenant`, then create API keys and invite members.
   </Step>
   <Step title="Project">
-    A workspace inside a tenant. Projects own environments, webhooks, and installed integrations.
+    A grouping inside a tenant. Projects organize environments. Creating a project does not create a CloudFormation stack.
   </Step>
   <Step title="Environment">
-    A deployable instance of a project. Environments have variables, artifacts, and deploy actions.
+    A deployable instance under a project. Each environment has its own CloudFormation stack, plus variables, artifacts, and deploy actions.
   </Step>
   <Step title="Resource">
     A cloud resource attached to an environment, such as a Lambda function.

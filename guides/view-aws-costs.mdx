@@ -10,7 +10,7 @@ icon: "chart-line"
 
 ## How Gapstack identifies resources
 
-When Gapstack creates resources for a project or environment, it applies `gp:` tags in **your** AWS account. Those keys identify the organization, project, environment, and resource.
+When Gapstack provisions resources in an environment, it applies `gp:` tags in **your** AWS account. Those keys identify the organization, the project that groups the environment, the environment, and the resource.
 
 | Key | What it identifies |
 | --- | --- |
@@ -72,6 +72,6 @@ AWS does not use the `gp:` keys for billing until you activate them as [cost all
 
 ## What you see after it is on
 
-Gapstack can then attribute costs to the projects and environments whose resources carry the activated tags. If a tag is not activated in AWS, those resources do not appear in tagged cost data.
+Gapstack can then attribute costs to environment resources, and group that spend by project. If a tag is not activated in AWS, those resources do not appear in tagged cost data.
 
 For the latest AWS pricing, see [AWS Cost Explorer pricing](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/pricing/).
