@@ -1,0 +1,77 @@
+---
+title: "View AWS costs"
+description: "Activate cost allocation tags in AWS, then turn on Gapstack cost analytics only when you need it."
+icon: "chart-line"
+---
+
+<Warning>
+  Gapstack tags every resource it provisions in **your** AWS account so you can tell which infrastructure it created. Cost views stay off until you turn them on. Leave them off unless you need spend data. Querying AWS for prices incurs extra charges.
+</Warning>
+
+## How Gapstack identifies resources
+
+When Gapstack creates resources for a project or environment, it applies `gp:` tags in **your** AWS account. Those keys identify the organization, project, environment, and resource.
+
+| Key | What it identifies |
+| --- | --- |
+| `gp:app` | Gapstack-provisioned resource (`gapstack-cdk`) |
+| `gp:tenant_id` | Organization (API tenant) |
+| `gp:project_id` | Project |
+| `gp:environment_id` | Environment |
+| `gp:resource_id` | Resource |
+| `gp:git-repo` | Connected GitHub repository |
+| `gp:git-branch` | Git branch used for the deploy |
+
+AWS also adds CloudFormation tags such as `aws:cloudformation:stack-name`. You do not activate those as user-defined cost allocation tags.
+
+<Frame caption="Gapstack tags on a provisioned Lambda in your AWS account.">
+  <img
+    src="/images/aws-resource-tags.png"
+    alt="AWS Lambda tags table showing gp:app, gp:project_id, gp:environment_id, gp:resource_id, gp:tenant_id, gp:git-repo, and gp:git-branch."
+  />
+</Frame>
+
+AWS does not use the `gp:` keys for billing until you activate them as [cost allocation tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html).
+
+<Note>
+  Only the management account in an AWS Organization, or a standalone account, can activate cost allocation tags. See [Activating user-defined cost allocation tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/activating-tags.html).
+</Note>
+
+<Steps>
+  <Step title="Activate the tags in AWS Billing">
+    After Gapstack has provisioned at least one tagged resource, activate the tag keys in AWS.
+
+    1. Open the [AWS Billing and Cost Management console](https://console.aws.amazon.com/costmanagement/).
+    2. In the navigation pane, click **Cost allocation tags**.
+    3. Select the Gapstack tag keys: `gp:app`, `gp:tenant_id`, `gp:project_id`, `gp:environment_id`, and `gp:resource_id`.
+    4. Click **Activate**.
+
+    AWS can take up to 24 hours to show new tag keys on that page, and up to another 24 hours after you activate them. Cost Explorer only reports tagged spend after activation, and only for charges that occur after the tags are active.
+  </Step>
+
+  <Step title="Turn on cost analytics in Gapstack when you need it">
+    Open [Organization settings](https://app.gapstack.dev/settings/aws-account). In the sidebar, turn on **Enable cost analytics**.
+
+    The product warns that this feature incurs additional costs when enabled. Gapstack reads spend through the [AWS Cost Explorer API](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/pricing/). AWS charges **$0.01 per request** against your primary billing view.
+
+    Leave the toggle off when you are not reviewing costs. The AWS console Cost Explorer UI is free. The charge applies when Gapstack queries the API.
+
+    <Frame caption="Enable cost analytics in the sidebar. Leave it off unless you need spend data.">
+      <img
+        src="/images/aws-cost-settings.png"
+        alt="Organization settings sidebar with Enable cost analytics turned off and a note that the feature incurs additional costs when enabled."
+        style={{ width: "360px", maxWidth: "100%", height: "auto" }}
+      />
+    </Frame>
+  </Step>
+</Steps>
+
+<Warning>
+  Turn **Enable cost analytics** on only when you need Gapstack to show AWS spend. Each Cost Explorer API request is billed by AWS. Turn the toggle off when you are done.
+</Warning>
+
+## What you see after it is on
+
+Gapstack can then attribute costs to the projects and environments whose resources carry the activated tags. If a tag is not activated in AWS, those resources do not appear in tagged cost data.
+
+For the latest AWS pricing, see [AWS Cost Explorer pricing](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/pricing/).
