@@ -1,0 +1,27 @@
+---
+title: "Cost analytics shows no data"
+description: "If you turned on cost analytics and projects, environments, or resources still show no spend, activate the Gapstack tags in AWS Billing."
+icon: "chart-line"
+---
+
+Turning on **Enable cost analytics** in the Gapstack sidebar is not enough. Gapstack can query AWS, but AWS only reports tagged spend after you activate the Gapstack tags as cost allocation tags.
+
+If projects, environments, or resources show no cost data, activate those tags in AWS Billing first. Follow the full steps in [View AWS costs](/guides/view-aws-costs).
+
+<Warning>
+  Cost analytics stays empty until the `gp:` tag keys are activated in AWS. The toggle in Gapstack does not activate those tags for you.
+</Warning>
+
+<Steps>
+  <Step title="Confirm cost analytics is on">
+    In the sidebar, turn on **Enable cost analytics**.
+  </Step>
+  <Step title="Activate the tags in AWS">
+    Open the [AWS Billing and Cost Management console](https://console.aws.amazon.com/costmanagement/), click **Cost allocation tags**, and activate `gp:app`, `gp:tenant_id`, `gp:project_id`, `gp:environment_id`, and `gp:resource_id`.
+  </Step>
+  <Step title="Wait, then refresh">
+    AWS can take up to 24 hours to list the keys, and up to another 24 hours after you activate them. Then refresh Gapstack and open the project, environment, or resource again.
+  </Step>
+</Steps>
+
+See [View AWS costs](/guides/view-aws-costs) for the tag list, the AWS delay, and why you should leave cost analytics off when you do not need it.

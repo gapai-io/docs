@@ -1,0 +1,24 @@
+---
+title: "Deploy a Lambda"
+description: "Upload an artifact to S3 before you create a Lambda. You cannot add a Lambda without an available artifact."
+icon: "bolt"
+---
+
+A common mistake is creating a **Lambda** before an artifact exists. Gapstack needs a zip already in the environment artifacts bucket. You cannot create a Lambda resource without that artifact.
+
+<Warning>
+  Configure the GitHub repository and upload the artifact first. Then select that artifact on the Lambda form and click **Create**.
+</Warning>
+
+<Steps>
+  <Step title="Upload an artifact">
+    Connect the GitHub repository and follow [Deploy an artifact to S3](/guides/deploy-artifacts). Use the environment OIDC role and artifacts bucket. Wait until the workflow finishes and the zip is in S3.
+  </Step>
+  <Step title="Create the Lambda">
+    Open the environment, click **Add resources**, and choose **Lambda**. Select the artifact that was just uploaded, complete the form, then click **Create**.
+  </Step>
+</Steps>
+
+<Note>
+  If the Lambda form has no artifact to select, the upload has not completed. Fix the GitHub Actions workflow, deploy the artifact again, then return to the Lambda form.
+</Note>

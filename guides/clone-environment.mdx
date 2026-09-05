@@ -1,0 +1,76 @@
+---
+title: "Duplicate an environment"
+description: "Copy resource definitions to a new environment, pick an AWS account and region, and review them before you deploy."
+icon: "copy"
+---
+
+Click **Duplicate environment** to copy an environment. Gapstack adds the selected definitions to a new environment. You choose the AWS account and region. Use the same account or a different one.
+
+This is useful when you build the application in a non-prod environment, then promote it to production. Production can be another AWS account or the same account in another region.
+
+<Note>
+  Duplicating copies definitions from one environment to another. The new environment gets its own stack when you deploy.
+</Note>
+
+<Frame caption="Duplicate Environment. Choose the source, AWS account, region, and what to copy.">
+  <img
+    src="/images/duplicate-environment.png"
+    alt="Duplicate Environment dialog with Select Environment, AWS Account, AWS Region, and checkboxes for Environment Variables, Resources, and Webhooks."
+    width={686}
+    height={1024}
+    style={{ width: "360px", maxWidth: "100%", height: "auto" }}
+  />
+</Frame>
+
+## What you can copy
+
+On **Select the environment element to duplicate**, choose any of these:
+
+| Option | What is copied |
+| --- | --- |
+| **Environment Variables** | Project-or-environment variables on the source |
+| **Resources** | Resource definitions. They are not provisioned in AWS yet |
+| **Webhooks** | Webhook subscriptions |
+
+Select **Resources** when you want the new environment to start from the same resource definitions. You can change names and other settings before you deploy those resources.
+
+## First deploy of a duplicate
+
+The first deploy of the new environment creates only the two bootstrap resources Gapstack creates for every new environment:
+
+1. The **artifacts S3 bucket**
+2. The **GitHub OIDC IAM role** used to upload artifacts
+
+The other copied resources stay defined. They are not created in AWS on that first deploy.
+
+After the bootstrap finishes, update any names or settings you need. Then deploy again to provision the rest of the resources.
+
+<Warning>
+  Do not expect Lambdas, APIs, and other application resources to appear in AWS on the first deploy. Review and edit the definitions first.
+</Warning>
+
+<Steps>
+  <Step title="Open Duplicate Environment">
+    Click **Duplicate environment**. The **Duplicate Environment** dialog opens.
+  </Step>
+  <Step title="Select the source environment">
+    Choose the environment to duplicate.
+  </Step>
+  <Step title="Choose the AWS account and region">
+    Select the AWS account and region. The form defaults to the project's account and region. The account must already be [connected](/guides/connect-aws-account).
+  </Step>
+  <Step title="Choose what to copy">
+    Select **Environment Variables**, **Resources**, and **Webhooks** as needed. Then click **Duplicate**.
+  </Step>
+  <Step title="Wait for the bootstrap deploy">
+    The first deploy creates the artifacts bucket and the OIDC role. Watch [Workflows](/guides/workflows) until that stack completes.
+  </Step>
+  <Step title="Edit the copied definitions">
+    Update resource names and other settings. Upload artifacts if the new environment needs them. See [Deploy a Lambda](/guides/deploy-lambda).
+  </Step>
+  <Step title="Deploy the application resources">
+    Deploy the environment again. Gapstack provisions the resources you left as definitions.
+  </Step>
+</Steps>
+
+If that first deploy fails, see [Failed first deploy](/guides/failed-first-deploy).

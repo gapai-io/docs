@@ -25,17 +25,21 @@
             "pages": [
               "guides/connect-aws-account",
               "guides/supported-resources",
+              "guides/clone-environment",
               "guides/workflows",
               "guides/webhooks",
               "guides/environment-variables",
               "guides/view-aws-costs",
-              "guides/deploy-artifacts"
+              "guides/deploy-artifacts",
+              "guides/mcp"
             ]
           },
           {
             "group": "Troubleshooting",
             "pages": [
-              "guides/failed-first-deploy"
+              "guides/failed-first-deploy",
+              "guides/deploy-lambda",
+              "guides/cost-analytics-empty"
             ]
           }
         ]
