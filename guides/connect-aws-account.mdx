@@ -30,15 +30,24 @@ Gapstack provisions infrastructure in **your** AWS account. Connecting an accoun
   </Step>
 
   <Step title="Open the AWS authorization page">
-    Confirm you are signed in to the correct AWS account in the browser. Click **Open AWS Authorization Page**. AWS opens a CloudFormation stack in a new tab.
+    Confirm you are signed in to the correct AWS account in the browser. Click **Open AWS Authorization Page**. AWS opens the CloudFormation **Quick create stack** page in a new tab.
+
+    Gapstack fills the stack name and parameters for you. Leave them unchanged. Do not edit **GapstackAwsAccountId** or **GapstackTenantId**. Those values link the stack to your organization and AWS account.
 
     <Warning>
-      Do not change the CloudFormation template, parameters, or region. The connection stack must be created in `us-west-1`. You can still deploy projects to any supported region.
+      Do not change the CloudFormation template, stack name, parameters, or region. The connection stack must be created in `us-west-1`. You can still deploy projects to any supported region.
     </Warning>
+
+    <Frame caption="Leave the stack name and parameters exactly as Gapstack filled them.">
+      <img
+        src="/images/connect-aws-cloudformation.png"
+        alt="AWS CloudFormation Quick create stack page with a pre-filled stack name and GapstackAwsAccountId and GapstackTenantId parameters that must not be edited."
+      />
+    </Frame>
   </Step>
 
   <Step title="Accept the stack and create it">
-    Scroll to **Capabilities**. Leave the rest of the page unchanged.
+    Scroll to **Capabilities**. Do not change any parameters on the way.
 
     1. Select **I acknowledge that AWS CloudFormation might create IAM resources with custom names.**
     2. Click **Create stack**.
