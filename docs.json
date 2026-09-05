@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Gapstack",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#050817",
+    "light": "#F8FAFC",
+    "dark": "#050817"
   },
   "favicon": "/favicon.svg",
   "navigation": {
