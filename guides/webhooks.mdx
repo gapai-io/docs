@@ -1,0 +1,54 @@
+---
+title: "Webhooks"
+description: "Send HTTP notifications to an external system when Gapstack resources change."
+icon: "webhook"
+---
+
+Use a webhook to notify an external system when something changes in Gapstack. You choose the events and an HTTPS endpoint. Gapstack sends a **POST** request to that URL when one of those events occurs.
+
+You can use the payload to start a pipeline, update another system, or trigger any automation that should run after a change in Gapstack.
+
+You can set up webhooks at the **project** level or the **environment** level. Open **Webhooks** on the project or on the environment, depending on where you want the subscription.
+
+<Frame caption="Choose events and an endpoint, then click Activate Webhook.">
+  <img
+    src="/images/webhooks.png"
+    alt="Environment Webhooks tab with project, environment, and AWS account events, plus an endpoint URL field and Activate Webhook."
+    width={3269}
+    height={2219}
+    style={{ width: "720px", maxWidth: "100%", height: "auto" }}
+  />
+</Frame>
+
+## Events
+
+Select at least one event.
+
+| Event | Key | When it fires |
+| --- | --- | --- |
+| **Project Updated** | `project.updated` | A project is updated |
+| **Project Deleted** | `project.deleted` | A project is deleted |
+| **Environment Created** | `environment.created` | An environment is created |
+| **Stack AWS Account Linked** | `stack.aws.account.linked` | An AWS account is linked |
+| **Stack AWS Account Unlinked** | `stack.aws.account.unlinked` | An AWS account is unlinked |
+
+## Add a webhook
+
+<Steps>
+  <Step title="Open Webhooks">
+    Open a **project** or an **environment**, then click **Webhooks**.
+  </Step>
+  <Step title="Choose events">
+    Select the events that should notify your system.
+  </Step>
+  <Step title="Enter the endpoint">
+    Enter the HTTPS URL that should receive the POST request, such as `https://example.com/webhook`.
+  </Step>
+  <Step title="Activate">
+    Click **Activate Webhook**. Gapstack starts sending POST requests to the endpoint for the events you selected.
+  </Step>
+</Steps>
+
+<Note>
+  Your endpoint must accept POST requests and return a success status. If the endpoint is down, Gapstack cannot deliver the event.
+</Note>
